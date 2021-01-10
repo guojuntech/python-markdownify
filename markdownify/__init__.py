@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup, NavigableString
 import re
 import six
+import urllib.parse
 
 
 convert_heading_re = re.compile(r'convert_h(\d+)')
@@ -228,6 +229,7 @@ class MarkdownConverter(object):
     def convert_img(self, el, text, convert_as_inline):
         alt = el.attrs.get('alt', None) or ''
         src = el.attrs.get('src', None) or ''
+        src = urllib.parse.quote_plus(src)
         title = el.attrs.get('title', None) or ''
         title_part = ' "%s"' % title.replace('"', r'\"') if title else ''
         if convert_as_inline:
